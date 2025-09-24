@@ -193,7 +193,6 @@ MIRROR_HELP_DICT = {
     "Split-Size": split_size,
     "Upload-Destination": upload,
     "Rclone-Flags": rcf,
-    "Bulk": bulk,
     "Join": join,
     "Rclone-DL": rlone_dl,
     "Tg-Links": tg_links,
