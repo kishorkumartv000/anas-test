@@ -10,38 +10,6 @@ programming in Python.
   <summary><h1>Features</h1></summary>
 
 <details>
-  <summary><h5>QBittorrent</h5></summary>
-
-- External access to webui, so you can remove files or edit settings. Then you can sync settings in database with sync button in bsetting
-- Select files from a Torrent before and during download using mltb file selector (Requires Base URL) (task option)
-- Seed torrents to a specific ratio and time (task option)
-- Edit Global Options while the bot is running from bot settings (global option)
-
-</details>
-
-<details>
-  <summary><h5>Aria2c</h5></summary>
-
-- Select files from a Torrent before and during download (Requires Base URL) (task option)
-- Seed torrents to a specific ratio and time (task option)
-- Netrc support (global option)
-- Direct link authentication for a specific link while using the bot (it will work even if only the username or password
-  is provided) (task option)
-- Edit Global Options while the bot is running from bot settings (global option)
-
-</details>
-
-<details>
-  <summary><h5>Sabnzbd</h5></summary>
-
-- External access to web interface, so you can remove files or edit settings. Then you can sync settings in database with sync button in bsetting
-- Remove files from job before and during download using mltb file selector (Requires Base URL) (task option)
-- Edit Global Options while the bot is running from bot settings (global option)
-- Servers menu to edit/add/remove usenet servers
-
-</details>
-
-<details>
   <summary><h5>TG Upload/Download</h5></summary>
 
 - Split size (global, user, and task option)
@@ -104,68 +72,15 @@ programming in Python.
 
 </details>
 
-<details>
-  <summary><h5>Yt-dlp</h5></summary>
-
-- Yt-dlp quality buttons (task option)
-- Ability to use a specific yt-dlp option (global, user, and task option)
-- Netrc support (global option)
-- Cookies support (global option)
-- Embed the original thumbnail and add it for leech
-- All supported audio formats
-
-</details>
-
-<details>
-  <summary><h5>JDownloader</h5></summary>
-
-- Synchronize Settings (global option)
-- Waiting to select (enable/disable files or change variants) before download start
-- DLC file support
-- All settings can be edited from the remote access to your JDownloader with Web Interface, Android App, iPhone App or
-  Browser Extensions
-
-</details>
 
 <details>
   <summary><h5>Mongo Database</h5></summary>
 
 - Store bot settings
 - Store user settings including thumbnails and all private files
-- Store RSS data
 - Store incompleted task messages
-- Store JDownloader settings
 - Store config.py file on first build and incase any change occured to it, then next build it will define variables
   from config.py instead of database
-
-</details>
-
-<details>
-  <summary><h5>Torrents Search</h5></summary>
-
-- Search on torrents with Torrent Search API
-- Search on torrents with variable plugins using qBittorrent search engine
-
-</details>
-
-<details>
-  <summary><h5>Archives</h5></summary>
-
-- Extract splits with or without password
-- Zip file/folder with or without password and splits incase of leech
-- Using 7z package to extract with or without password all supported types
-
-</details>
-
-<details>
-  <summary><h5>RSS</h5></summary>
-
-- Based on this repository [rss-chan](https://github.com/hyPnOtICDo0g/rss-chan)
-- Rss feed (user option)
-- Title Filters (feed option)
-- Edit any feed while running: pause, resume, edit command and edit filters (feed option)
-- Sudo settings to control users feeds
-- All functions have been improved using buttons from one command.
 
 </details>
 
@@ -198,17 +113,6 @@ programming in Python.
 - Name Substitution to rename the files before upload
 - User can select whether he want to use his rclone.conf/token.pickle without adding mpt: or mrcc: before path/gd-id
 - FFmpeg commands to execute it after download (task option)
-- Supported Direct links Generators:
-
-> mediafire (file/folders), hxfile.co (need cookies txt with name) [hxfile.txt], streamtape.com, streamsb.net, streamhub.ink,
-> streamvid.net, doodstream.com,
-> feurl.com, upload.ee, pixeldrain.com, racaty.net, 1fichier.com, 1drv.ms (Only works for file not folder or business
-> account), filelions.com, streamwish.com, send.cm (file/folders), solidfiles.com, linkbox.to (file/folders),
-> shrdsk.me (
-> sharedisk.io), akmfiles.com, wetransfer.com, pcloud.link, gofile.io (file/folders), easyupload.io, mdisk.me (with
-> ytdl),
-> tmpsend.com, qiwi.gg, berkasdrive.com, mp4upload.com, terabox.com (videos only file/folders).
-
 </details>
 </details>
 
@@ -275,9 +179,9 @@ Fill up rest of the fields. Meaning of each field is discussed below.
 **2. Optional Fields**
 - `TG_PROXY` (`Dict`): The Proxy settings as dict. Ex: {"scheme": "socks5", "hostname": "11.22.33.44", "port": 1234, "username": "user", "password": "pass"}. The username and password can be omitted if the proxy doesn’t require authorization.
 
-- `USER_SESSION_STRING` (`Str`): To download/upload from your telegram account if user is `PREMIUM` and to send rss. To generate session string use this command `python3 generate_string_session.py` after mounting repo folder for sure. **NOTE**: You can't use bot with private message. Use it with superGroup.
+- `USER_SESSION_STRING` (`Str`): To download/upload from your telegram account if user is `PREMIUM`. To generate session string use this command `python3 generate_string_session.py` after mounting repo folder for sure. **NOTE**: You can't use bot with private message. Use it with superGroup.
 
-- `DATABASE_URL` (`Str`): Your Mongo Database URL (Connection string). Follow this [Create Database](https://github.com/anasty17/test?tab=readme-ov-file#create-database) to create database. Data will be saved in Database: bot settings, users settings, rss data and incomplete tasks. **NOTE**: You can always edit all settings that saved in database from the official site -> (Browse collections). 
+- `DATABASE_URL` (`Str`): Your Mongo Database URL (Connection string). Follow this [Create Database](https://github.com/anasty17/test?tab=readme-ov-file#create-database) to create database. Data will be saved in Database: bot settings, users settings, and incomplete tasks. **NOTE**: You can always edit all settings that saved in database from the official site -> (Browse collections).
 
 - `CMD_SUFFIX` (`Str`|`Int`): Commands index number. This number will added at the end all commands.
 
@@ -297,16 +201,6 @@ Fill up rest of the fields. Meaning of each field is discussed below.
 
 - `INCOMPLETE_TASK_NOTIFIER` (`Bool`): Get incomplete task messages after restart. Require database and superGroup. Default
 is `False`.
-
-- `FILELION_API` (`Str`): Filelion api key to mirror Filelion links. Get it
-from [Filelion](https://vidhide.com/?op=my_account).
-
-- `STREAMWISH_API` (`Str`): Streamwish api key to mirror Streamwish links. Get it
-from [Streamwish](https://streamwish.com/?op=my_account).
-
-- `YT_DLP_OPTIONS` (`Dict`): Dict of yt-dlp options. Check all possible
-options [HERE](https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184) or use this [script](https://t.me/mltb_official_channel/177) to convert cli arguments to api options. Format: {key: value, key: value, key: value}.
-  - Example: {"format": "bv*+mergeall[vcodec=none]", "nocheckcertificate": True, "playliststart": 10, "fragment_retries": float("inf"), "matchtitle": "S13", "writesubtitles": True, "live_from_start": True, "postprocessor_args": {"ffmpeg": ["-threads", "4"]}, "wait_for_video": (5, 100), "download_ranges": [{"start_time": 0, "end_time": 10}]}
 
 - `USE_SERVICE_ACCOUNTS` (`Bool`): Whether to use Service Accounts or not, with google-api-python-client. For this to work
 see [Using Service Accounts](https://github.com/anasty17/mirror-leech-telegram-bot#generate-service-accounts-what-is-service-account) section below. Default is `False`.
@@ -388,68 +282,13 @@ see [Using Service Accounts](https://github.com/anasty17/mirror-leech-telegram-b
 
 - `THUMBNAIL_LAYOUT` (`Str`): Thumbnail layout (widthxheight, 2x2, 3x3, 2x4, 4x4, ...) of how many photo arranged for the thumbnail.
 
-**7. qBittorrent/Aria2c/Sabnzbd**
-
-- `TORRENT_TIMEOUT` (`Int`): Timeout of dead torrents downloading with qBittorrent and Aria2c in seconds.
-
-- `BASE_URL` (`Str`): Valid BASE URL where the bot is deployed to use torrent/nzb web files selection. Format of URL should be `http://myip`, where `myip` is the IP/Domain(public) of your bot or if you have chosen port other than `80` so write it in this format `http://myip:port` (`http` and not `https`).
-
-- `BASE_URL_PORT` (`Int`): Which is the **BASE_URL** Port. Default is `80`.
-
-- `WEB_PINCODE` (`Bool`): Whether to ask for pincode before selecting files from torrent in web or not. Default is `False`.
-    - **Qbittorrent NOTE**: If your facing ram issues then set limit for `MaxConnections`, decrease `AsyncIOThreadsCount`, set limit of `DiskWriteCacheSize` to `32` and decrease `MemoryWorkingSetLimit` from qbittorrent.conf or bsetting command.
-    - Open port 8090 in your vps to access webui from any device. username: mltb, password: mltbmltb
-
-**8. JDownloader**
-
-- `JD_EMAIL` (`Str`): jdownloader email sign up on [JDownloader](https://my.jdownloader.org/).
-
-- `JD_PASS` (`Str`): jdownloader password.
-  - **JDownloader Config**: You can use your config from local machine in bot by *zipping* cfg folder (cfg.zip) and add it in repo folder.
-
-**9. Sabnzbd**
-
-- `USENET_SERVERS` (`List`): list of dictionaries, you can add as much as you want and there is a button for servers in sabnzbd settings to edit current servers and add new servers.
-
-  ***[{'name': 'main', 'host': '', 'port': 563, 'timeout': 60, 'username': '', 'password': '', 'connections': 8, 'ssl': 1, 'ssl_verify': 2, 'ssl_ciphers': '', 'enable': 1, 'required': 0, 'optional': 0, 'retention': 0, 'send_group': 0, 'priority': 0}]***
-
-  - [READ THIS FOR MORE INFORMATION](https://sabnzbd.org/wiki/configuration/4.2/servers)
-
-  - Open port 8070 in your vps to access full web interface from any device. Use it like http://ip:8070/sabnzbd/. username: mltb, password: mltbmltb
-
-**10. RSS**
-
-- `RSS_DELAY` (`Int`): Time in seconds for rss refresh interval. Recommended `600` second at least. Default is `600` in sec.
-
-- `RSS_SIZE_LIMIT` (`INT`): Item size limit in bytes. Default is `0`.
-
-- `RSS_CHAT` (`Int`|`Str`): Chat `ID or USERNAME or ID|TOPIC_ID or USERNAME|TOPIC_ID` where rss links will be sent. If you want message to be sent to the channel then add channel id. Add `-100` before channel id.
-    - **RSS NOTES**: `RSS_CHAT` is required, otherwise monitor will not work. You must use `USER_STRING_SESSION` --OR-- *CHANNEL*. If using channel then bot should be added in both channel and group(linked to channel) and `RSS_CHAT` is the channel id, so messages sent by the bot to channel will be forwarded to group. Otherwise with `USER_STRING_SESSION` add group id for `RSS_CHAT`. If `DATABASE_URL` not added you will miss the feeds while bot offline.
-
-**11. Queue System**
+**7. Queue System**
 
 - `QUEUE_ALL` (`Int`): Number of parallel tasks of downloads and uploads. For example if 20 task added and `QUEUE_ALL` is `8`, then the summation of uploading and downloading tasks are 8 and the rest in queue. **NOTE**: if you want to fill `QUEUE_DOWNLOAD` or `QUEUE_UPLOAD`, then `QUEUE_ALL` value must be greater than or equal to the greatest one and less than or equal to summation of `QUEUE_UPLOAD` and `QUEUE_DOWNLOAD`.
 
 - `QUEUE_DOWNLOAD` (`Int`): Number of all parallel downloading tasks.
 
 - `QUEUE_UPLOAD` (`Int`): Number of all parallel uploading tasks.
-
-**12. Torrent Search**
-
-- `SEARCH_API_LINK` (`Str`): Search api app link. Get your api from deploying this [repository](https://github.com/Ryuk-me/Torrent-Api-py).
-    - Supported Sites:
-  > 1337x, Piratebay, Nyaasi, Torlock, Torrent Galaxy, Zooqle, Kickass, Bitsearch, MagnetDL, Libgen, YTS, Limetorrent,
-  TorrentFunk, Glodls, TorrentProject and YourBittorrent
-
-- `SEARCH_LIMIT` (`Int`): Search limit for search api, limit for each site and not overall result limit. Default is zero (Default api limit for each site).
-
-- `SEARCH_PLUGINS` (`List`): List of qBittorrent search plugins (github raw links). I have added some plugins, you can remove/add plugins as you want. Main Source: [qBittorrent Search Plugins (Official/Unofficial)](https://github.com/qbittorrent/search-plugins).
-
-**13. NZB Search**
-
-- `HYDRA_IP` (`Str`): IP address of [nzbhydra2](https://github.com/theotherp/nzbhydra2).
-
-- `HYDRA_API_KEY` (`Str`): API key from [nzbhydra2](https://github.com/theotherp/nzbhydra2).
 
 ------
 
@@ -591,24 +430,13 @@ sudo ip6tables-save | sudo tee /etc/iptables/rules.v6
 
 ```
 mirror - or /m Mirror
-qbmirror - or /qm Mirror torrent using qBittorrent
-jdmirror - or /jm Mirror using jdownloader
-nzbmirror - or /nm Mirror using sabnzbd
-ytdl - or /y Mirror yt-dlp supported links
 leech - or /l Upload to telegram
-qbleech - or /ql Leech torrent using qBittorrent
-jdleech - or /jl Leech using jdownloader
-nzbleech - or /nl Leech using sabnzbd
-ytdlleech - or /yl Leech yt-dlp supported links
 clone - Copy file/folder to Drive
 count - Count file/folder from GDrive
 usetting - or /us User settings
 bsetting - or /bs Bot settings
 status - Get Mirror Status message
-sel - Select files from torrent
-rss - Rss menu
 list - Search files in Drive
-search - Search for torrents with API
 cancel - or /c Cancel a task
 cancelall - Cancel all tasks
 forcestart - or /fs to start task from queue
@@ -712,30 +540,6 @@ python3 generate_drive_token.py
 
 ------
 
-</details>
-
-<details>
-  <summary><h5>Bittorrent Seed</h5></summary>
-
-- Using `-d` argument alone will lead to use global options for aria2c or qbittorrent.
-
-<details>
-  <summary><h3>QBittorrent</h3></summary>
-
-- Global options: `GlobalMaxRatio` and `GlobalMaxSeedingMinutes` in qbittorrent.conf, `-1` means no limit, but you can
-  cancel manually.
-    - **NOTE**: Don't change `MaxRatioAction`.
-
-</details>
-
-<details>
-  <summary><h3>Aria2c</h3></summary>
-
-- Global options: `--seed-ratio` (0 means no limit) and `--seed-time` (0 means no seed) in aria.sh.
-
-------
-
-</details>
 </details>
 
 <details>
@@ -898,37 +702,6 @@ Example:
 TD1 root https://example.dev
 TD2 0AO1JDB1t3i5jUk9PVA https://example.dev
 ```
-
------
-
-</details>
-
-<details>
-  <summary><h5>Yt-dlp and Aria2c Authentication Using .netrc File</h5></summary>
-
-For using your premium accounts in yt-dlp or for protected Index Links, create .netrc file according to following
-format:
-
-**Note**: Create .netrc and not netrc, this file will be hidden, so view hidden files to edit it after creation.
-
-Format:
-
-```
-machine host login username password my_password
-```
-
-Using Aria2c you can also use built in feature from bot with or without username. Here example for index link without
-username.
-
-```
-machine example.workers.dev password index_password
-```
-Where host is the name of extractor (eg. instagram, Twitch). Multiple accounts of different hosts can be added each
-separated by a new line.
-
-**Yt-dlp**: 
-Authentication using [cookies.txt](https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies) file. CREATE IT IN INCOGNITO TAB.
-
 
 -----
 

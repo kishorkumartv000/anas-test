@@ -8,18 +8,7 @@ mirror = """<b>Send link along with command line or </b>
 <b>By replying to link/file</b>:
 
 /cmd -n new name -e -up upload destination
-
-<b>NOTE:</b>
-1. Commands that start with <b>qb</b> are ONLY for torrents."""
-
-yt = """<b>Send link along with command line</b>:
-
-/cmd link
-<b>By replying to link</b>:
-/cmd -n new name -z password -opt x:y|x1:y1
-
-Check here all supported <a href='https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md'>SITES</a>
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L212'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options."""
+"""
 
 clone = """Send Gdrive|Gdot|Filepress|Filebee|Appdrive|Gdflix link or rclone path along with command or by replying to the link/rc_path by command.
 Use -sync to use sync method in rclone. Example: /cmd rcl/rclone_path -up rcl/rclone_path/rc -sync"""
@@ -28,32 +17,6 @@ new_name = """<b>New Name</b>: -n
 
 /cmd link -n new name
 Note: Doesn't work with torrents"""
-
-multi_link = """<b>Multi links only by replying to first link/file</b>: -i
-
-/cmd -i 10(number of links/files)"""
-
-same_dir = """<b>Move file(s)/folder(s) to new folder</b>: -m
-
-You can use this arg also to move multiple links/torrents contents to the same directory, so all links will be uploaded together as one task
-
-/cmd link -m new folder (only one link inside new folder)
-/cmd -i 10(number of links/files) -m folder name (all links contents in one folder)
-/cmd -b -m folder name (reply to batch of message/file(each link on new line))
-
-While using bulk you can also use this arg with different folder name along with the links in message or file batch
-Example:
-link1 -m folder1
-link2 -m folder1
-link3 -m folder2
-link4 -m folder2
-link5 -m folder3
-link6
-so link1 and link2 content will be uploaded from same folder which is folder1
-link3 and link4 content will be uploaded from same folder also which is folder2
-link5 will uploaded alone inside new folder named folder3
-link6 will get uploaded normally alone
-"""
 
 thumb = """<b>Thumbnail for current task</b>: -t
 
@@ -101,21 +64,6 @@ rcf = """<b>Rclone Flags</b>: -rcf
 /cmd link|path|rcl -up path|rcl -rcf --buffer-size:8M|--drive-starred-only|key|key:value
 This will override all other flags except --exclude
 Check here all <a href='https://rclone.org/flags/'>RcloneFlags</a>."""
-
-bulk = """<b>Bulk Download</b>: -b
-
-Bulk can be used only by replying to text message or text file contains links separated by new line.
-Example:
-link1 -n new name -up remote1:path1 -rcf |key:value|key:value
-link2 -z -n new name -up remote2:path2
-link3 -e -n new name -up remote2:path2
-Reply to this example by this cmd -> /cmd -b(bulk)
-
-Note: Any arg along with the cmd will be setted to all links
-/cmd -b -up remote: -z -m folder name (all links contents in one zipped folder uploaded to one destination)
-so you can't set different upload destinations along with link incase you have added -m along with cmd
-You can set start and end of the links from the bulk like seed, with -b start:end or only end by -b :end or only start by -b start.
-The default start is from zero(first link) to inf."""
 
 rlone_dl = """<b>Rclone Download</b>:
 
@@ -166,27 +114,10 @@ Create screenshots for one video or folder of videos.
 /cmd -ss (it will take the default values which is 10 photos).
 You can control this value. Example: /cmd -ss 6."""
 
-seed = """<b>Bittorrent seed</b>: -d
-
-/cmd link -d ratio:seed_time or by replying to file/link
-To specify ratio and seed time add -d ratio:time.
-Example: -d 0.7:10 (ratio and time) or -d 0.7 (only ratio) or -d :10 (only time) where time in minutes"""
-
 zip_arg = """<b>Zip</b>: -z password
 
 /cmd link -z (zip)
 /cmd link -z password (zip password protected)"""
-
-qual = """<b>Quality Buttons</b>: -s
-
-In case default quality added from yt-dlp options using format option and you need to select quality for specific link or links with multi links feature.
-/cmd link -s"""
-
-yt_opt = """<b>Options</b>: -opt
-
-/cmd link -opt {"format": "bv*+mergeall[vcodec=none]", "nocheckcertificate": True, "playliststart": 10, "fragment_retries": float("inf"), "matchtitle": "S13", "writesubtitles": True, "live_from_start": True, "postprocessor_args": {"ffmpeg": ["-threads", "4"]}, "wait_for_video": (5, 100), "download_ranges": [{"start_time": 0, "end_time": 10}]}
-
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options."""
 
 convert_media = """<b>Convert Media</b>: -ca -cv
 /cmd link -ca mp3 -cv mp4 (convert all audios to mp3 and all videos to mp4)
@@ -254,40 +185,10 @@ Here I will explain how to use mltb.* which is reference to files you want to wo
 4. Fourth cmd: the input is mltb.audio so this cmd will work on all audios and the output is mltb.mp3 so the output extension is mp3.
 5. Fifth cmd: You can add telegram link for small size input like photo to set watermark"""
 
-YT_HELP_DICT = {
-    "main": yt,
-    "New-Name": f"{new_name}\nNote: Don't add file extension",
-    "Zip": zip_arg,
-    "Quality": qual,
-    "Options": yt_opt,
-    "Multi-Link": multi_link,
-    "Same-Directory": same_dir,
-    "Thumb": thumb,
-    "Split-Size": split_size,
-    "Upload-Destination": upload,
-    "Rclone-Flags": rcf,
-    "Bulk": bulk,
-    "Sample-Video": sample_video,
-    "Screenshot": screenshot,
-    "Convert-Media": convert_media,
-    "Force-Start": force_start,
-    "Name-Substitute": name_sub,
-    "TG-Transmission": transmission,
-    "Thumb-Layout": thumbnail_layout,
-    "Leech-Type": leech_as,
-    "FFmpeg-Cmds": ffmpeg_cmds,
-}
-
 MIRROR_HELP_DICT = {
     "main": mirror,
     "New-Name": new_name,
-    "DL-Auth": "<b>Direct link authorization</b>: -au -ap\n\n/cmd link -au username -ap password",
-    "Headers": "<b>Direct link custom headers</b>: -h\n\n/cmd link -h key:value|key1:value1",
     "Extract/Zip": extract_zip,
-    "Select-Files": "<b>Bittorrent/JDownloader/Sabnzbd File Selection</b>: -s\n\n/cmd link -s or by replying to file/link",
-    "Torrent-Seed": seed,
-    "Multi-Link": multi_link,
-    "Same-Directory": same_dir,
     "Thumb": thumb,
     "Split-Size": split_size,
     "Upload-Destination": upload,
@@ -310,35 +211,9 @@ MIRROR_HELP_DICT = {
 
 CLONE_HELP_DICT = {
     "main": clone,
-    "Multi-Link": multi_link,
-    "Bulk": bulk,
     "Gdrive": gdrive,
     "Rclone": rclone_cl,
 }
-
-RSS_HELP_MESSAGE = """
-Use this format to add feed url:
-Title1 link (required)
-Title2 link -c cmd -inf xx -exf xx
-Title3 link -c cmd -d ratio:time -z password
-
--c command -up mrcc:remote:path/subdir -rcf --buffer-size:8M|key|key:value
--inf For included words filter.
--exf For excluded words filter.
--stv true or false (sensitive filter)
-
-Example: Title https://www.rss-url.com -inf 1080 or 720 or 144p|mkv or mp4|hevc -exf flv or web|xxx
-This filter will parse links that its titles contain `(1080 or 720 or 144p) and (mkv or mp4) and hevc` and doesn't contain (flv or web) and xxx words. You can add whatever you want.
-
-Another example: -inf  1080  or 720p|.web. or .webrip.|hvec or x264. This will parse titles that contain ( 1080  or 720p) and (.web. or .webrip.) and (hvec or x264). I have added space before and after 1080 to avoid wrong matching. If this `10805695` number in title it will match 1080 if added 1080 without spaces after it.
-
-Filter Notes:
-1. | means and.
-2. Add `or` between similar keys, you can add it between qualities or between extensions, so don't add filter like this f: 1080|mp4 or 720|web because this will parse 1080 and (mp4 or 720) and web ... not (1080 and mp4) or (720 and web).
-3. You can add `or` and `|` as much as you want.
-4. Take a look at the title if it has a static special character after or before the qualities or extensions or whatever and use them in the filter to avoid wrong match.
-Timeout: 60 sec.
-"""
 
 PASSWORD_ERROR_MESSAGE = """
 <b>This link requires a password!</b>
@@ -373,10 +248,6 @@ Example: script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[mltb\]/mltb |
 7. [mltb] will get replaced by mltb
 8. \text\ will get replaced by text with sensitive case
 """,
-    "YT_DLP_OPTIONS": """Send dict of YT-DLP Options. Timeout: 60 sec
-Format: {key: value, key: value, key: value}.
-Example: {"format": "bv*+mergeall[vcodec=none]", "nocheckcertificate": True, "playliststart": 10, "fragment_retries": float("inf"), "matchtitle": "S13", "writesubtitles": True, "live_from_start": True, "postprocessor_args": {"ffmpeg": ["-threads", "4"]}, "wait_for_video": (5, 100), "download_ranges": [{"start_time": 0, "end_time": 10}]}
-Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L184'>FILE</a> or use this <a href='https://t.me/mltb_official_channel/177'>script</a> to convert cli arguments to api options.""",
     "FFMPEG_CMDS": """Dict of list values of ffmpeg commands. You can set multiple ffmpeg commands for all files before upload. Don't write ffmpeg at beginning, start directly with the arguments.
 Examples: {"subtitle": ["-i mltb.mkv -c copy -c:s srt mltb.mkv", "-i mltb.video -c copy -c:s srt mltb"], "convert": ["-i mltb.m4a -c:a libmp3lame -q:a 2 mltb.mp3", "-i mltb.audio -c:a libmp3lame -q:a 2 mltb.mp3"], "extract": ["-i mltb -map 0:a -c copy mltb.mka -map 0:s -c copy mltb.srt"], "metadata": ["-i mltb.mkv -map 0 -map -0:v:1 -map -0:s -map 0:s:0 -map -0:v:m:attachment -c copy -metadata:s:v:0 title={title} -metadata:s:a:0 title={title} -metadata:s:a:1 title={title2} -metadata:s:a:2 title={title2} -c:s srt -metadata:s:s:0 title={title3} mltb -y -del"], "watermark": ["-i mltb -i tg://openmessage?user_id=5272663208&message_id=322801 -filter_complex 'overlay=W-w-10:H-h-10' -c:a copy mltb"]}
 Notes:
@@ -395,26 +266,16 @@ Here I will explain how to use mltb.* which is reference to files you want to wo
 help_string = f"""
 NOTE: Try each command without any argument to see more detalis.
 /{BotCommands.MirrorCommand[0]} or /{BotCommands.MirrorCommand[1]}: Start mirroring to cloud.
-/{BotCommands.QbMirrorCommand[0]} or /{BotCommands.QbMirrorCommand[1]}: Start Mirroring to cloud using qBittorrent.
-/{BotCommands.JdMirrorCommand[0]} or /{BotCommands.JdMirrorCommand[1]}: Start Mirroring to cloud using JDownloader.
-/{BotCommands.NzbMirrorCommand[0]} or /{BotCommands.NzbMirrorCommand[1]}: Start Mirroring to cloud using Sabnzbd.
-/{BotCommands.YtdlCommand[0]} or /{BotCommands.YtdlCommand[1]}: Mirror yt-dlp supported link.
 /{BotCommands.LeechCommand[0]} or /{BotCommands.LeechCommand[1]}: Start leeching to Telegram.
-/{BotCommands.QbLeechCommand[0]} or /{BotCommands.QbLeechCommand[1]}: Start leeching using qBittorrent.
-/{BotCommands.JdLeechCommand[0]} or /{BotCommands.JdLeechCommand[1]}: Start leeching using JDownloader.
-/{BotCommands.NzbLeechCommand[0]} or /{BotCommands.NzbLeechCommand[1]}: Start leeching using Sabnzbd.
-/{BotCommands.YtdlLeechCommand[0]} or /{BotCommands.YtdlLeechCommand[1]}: Leech yt-dlp supported link.
 /{BotCommands.CloneCommand} [drive_url]: Copy file/folder to Google Drive.
 /{BotCommands.CountCommand} [drive_url]: Count file/folder of Google Drive.
 /{BotCommands.DeleteCommand} [drive_url]: Delete file/folder from Google Drive (Only Owner & Sudo).
 /{BotCommands.UserSetCommand[0]} or /{BotCommands.UserSetCommand[1]} [query]: Users settings.
 /{BotCommands.BotSetCommand[0]} or /{BotCommands.BotSetCommand[1]} [query]: Bot settings.
-/{BotCommands.SelectCommand}: Select files from torrents or nzb by gid or reply.
 /{BotCommands.CancelTaskCommand[0]} or /{BotCommands.CancelTaskCommand[1]} [gid]: Cancel task by gid or reply.
 /{BotCommands.ForceStartCommand[0]} or /{BotCommands.ForceStartCommand[1]} [gid]: Force start task by gid or reply.
 /{BotCommands.CancelAllCommand} [query]: Cancel all [status] tasks.
 /{BotCommands.ListCommand} [query]: Search in Google Drive(s).
-/{BotCommands.SearchCommand} [query]: Search for torrents with API.
 /{BotCommands.StatusCommand}: Shows a status of all the downloads.
 /{BotCommands.StatsCommand}: Show stats of the machine where the bot is hosted in.
 /{BotCommands.PingCommand}: Check how long it takes to Ping the Bot (Only Owner & Sudo).
@@ -429,5 +290,4 @@ NOTE: Try each command without any argument to see more detalis.
 /{BotCommands.AExecCommand}: Exec async functions (Only Owner).
 /{BotCommands.ExecCommand}: Exec sync functions (Only Owner).
 /{BotCommands.ClearLocalsCommand}: Clear {BotCommands.AExecCommand} or {BotCommands.ExecCommand} locals (Only Owner).
-/{BotCommands.RssCommand}: RSS Menu.
 """

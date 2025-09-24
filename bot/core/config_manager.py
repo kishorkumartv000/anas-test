@@ -8,8 +8,6 @@ from bot import LOGGER
 class Config:
     AS_DOCUMENT = False
     AUTHORIZED_CHATS = ""
-    BASE_URL = ""
-    BASE_URL_PORT = 80
     BOT_TOKEN = ""
     CMD_SUFFIX = ""
     DATABASE_URL = ""
@@ -17,20 +15,15 @@ class Config:
     EQUAL_SPLITS = False
     EXCLUDED_EXTENSIONS = ""
     FFMPEG_CMDS = {}
-    FILELION_API = ""
     GDRIVE_ID = ""
     INCOMPLETE_TASK_NOTIFIER = False
     INDEX_URL = ""
     IS_TEAM_DRIVE = False
-    JD_EMAIL = ""
-    JD_PASS = ""
     LEECH_DUMP_CHAT = ""
     LEECH_FILENAME_PREFIX = ""
     LEECH_SPLIT_SIZE = 2097152000
     MEDIA_GROUP = False
     HYBRID_LEECH = False
-    HYDRA_IP = ""
-    HYDRA_API_KEY = ""
     NAME_SUBSTITUTE = ""
     OWNER_ID = 0
     QUEUE_ALL = 0
@@ -42,31 +35,20 @@ class Config:
     RCLONE_SERVE_USER = ""
     RCLONE_SERVE_PASS = ""
     RCLONE_SERVE_PORT = 8080
-    RSS_CHAT = ""
-    RSS_DELAY = 600
-    RSS_SIZE_LIMIT = 0
-    SEARCH_API_LINK = ""
-    SEARCH_LIMIT = 0
-    SEARCH_PLUGINS = []
     STATUS_LIMIT = 4
     STATUS_UPDATE_INTERVAL = 15
     STOP_DUPLICATE = False
-    STREAMWISH_API = ""
     SUDO_USERS = ""
     TELEGRAM_API = 0
     TELEGRAM_HASH = ""
     TG_PROXY = {}
     THUMBNAIL_LAYOUT = ""
-    TORRENT_TIMEOUT = 0
     UPLOAD_PATHS = {}
     UPSTREAM_REPO = ""
     UPSTREAM_BRANCH = "master"
-    USENET_SERVERS = []
     USER_SESSION_STRING = ""
     USER_TRANSMISSION = False
     USE_SERVICE_ACCOUNTS = False
-    WEB_PINCODE = False
-    YT_DLP_OPTIONS = {}
 
     @classmethod
     def _convert(cls, key: str, value):
@@ -151,17 +133,8 @@ class Config:
         if attr == "DEFAULT_UPLOAD" and converted_value != "gd":
             return "rc"
 
-        if attr in {
-            "BASE_URL",
-            "RCLONE_SERVE_URL",
-            "SEARCH_API_LINK",
-        }:
+        if attr == "RCLONE_SERVE_URL":
             return converted_value.strip("/") if converted_value else ""
-
-        if attr == "USENET_SERVERS" and (
-            not converted_value or not converted_value[0].get("host")
-        ):
-            return None
 
         return converted_value
 
@@ -226,9 +199,6 @@ class Config:
                 continue
 
             processed_value = cls._process_config_value(key, value)
-
-            if key == "USENET_SERVERS" and processed_value is None:
-                processed_value = []
 
             if processed_value is not None:
                 setattr(cls, key, processed_value)

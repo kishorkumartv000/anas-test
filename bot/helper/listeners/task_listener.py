@@ -13,11 +13,9 @@ from ... import (
     queued_up,
     queued_dl,
     queue_dict_lock,
-    same_directory_lock,
     DOWNLOAD_DIR,
 )
 from ...core.config_manager import Config
-from ...core.torrent_manager import TorrentManager
 from ..common import TaskConfig
 from ..ext_utils.bot_utils import sync_to_async
 from ..ext_utils.db_handler import database
@@ -58,7 +56,7 @@ class TaskListener(TaskConfig):
                 for intvl in list(st.values()):
                     intvl.cancel()
             intervals["status"].clear()
-            await gather(TorrentManager.aria2.purgeDownloadResult(), delete_status())
+            await delete_status()
         except:
             pass
 
@@ -68,16 +66,6 @@ class TaskListener(TaskConfig):
         self.files_to_proceed = []
         self.proceed_count = 0
         self.progress = True
-
-    async def remove_from_same_dir(self):
-        async with task_dict_lock:
-            if (
-                self.folder_name
-                and self.same_dir
-                and self.mid in self.same_dir[self.folder_name]["tasks"]
-            ):
-                self.same_dir[self.folder_name]["tasks"].remove(self.mid)
-                self.same_dir[self.folder_name]["total"] -= 1
 
     async def on_download_start(self):
         if (
@@ -93,36 +81,6 @@ class TaskListener(TaskConfig):
         await sleep(2)
         if self.is_cancelled:
             return
-        multi_links = False
-        if (
-            self.folder_name
-            and self.same_dir
-            and self.mid in self.same_dir[self.folder_name]["tasks"]
-        ):
-            async with same_directory_lock:
-                while True:
-                    async with task_dict_lock:
-                        if self.mid not in self.same_dir[self.folder_name]["tasks"]:
-                            return
-                        if (
-                            self.same_dir[self.folder_name]["total"] <= 1
-                            or len(self.same_dir[self.folder_name]["tasks"]) > 1
-                        ):
-                            if self.same_dir[self.folder_name]["total"] > 1:
-                                self.same_dir[self.folder_name]["tasks"].remove(
-                                    self.mid
-                                )
-                                self.same_dir[self.folder_name]["total"] -= 1
-                                spath = f"{self.dir}{self.folder_name}"
-                                des_id = list(self.same_dir[self.folder_name]["tasks"])[
-                                    0
-                                ]
-                                des_path = f"{DOWNLOAD_DIR}{des_id}{self.folder_name}"
-                                LOGGER.info(f"Moving files from {self.mid} to {des_id}")
-                                await move_and_merge(spath, des_path, self.mid)
-                                multi_links = True
-                            break
-                    await sleep(1)
         async with task_dict_lock:
             if self.is_cancelled:
                 return
@@ -133,17 +91,7 @@ class TaskListener(TaskConfig):
             gid = download.gid()
         LOGGER.info(f"Download completed: {self.name}")
 
-        if not (self.is_torrent or self.is_qbit):
-            self.seed = False
-
-        if multi_links:
-            self.seed = False
-            await self.on_upload_error(
-                f"{self.name} Downloaded!\n\nWaiting for other tasks to finish..."
-            )
-            return
-        elif self.same_dir:
-            self.seed = False
+        self.seed = False
 
         if self.folder_name:
             self.name = self.folder_name.strip("/").split("/", 1)[0]
@@ -162,14 +110,8 @@ class TaskListener(TaskConfig):
         self.size = await get_path_size(dl_path)
         self.is_file = await aiopath.isfile(dl_path)
 
-        if self.seed:
-            up_dir = self.up_dir = f"{self.dir}10000"
-            up_path = f"{self.up_dir}/{self.name}"
-            await create_recursive_symlink(self.dir, self.up_dir)
-            LOGGER.info(f"Shortcut created: {dl_path} -> {up_path}")
-        else:
-            up_dir = self.dir
-            up_path = dl_path
+        up_dir = self.dir
+        up_path = dl_path
 
         await remove_excluded_files(self.up_dir or self.dir, self.excluded_extensions)
 
@@ -182,7 +124,7 @@ class TaskListener(TaskConfig):
         if self.join and not self.is_file:
             await join_files(up_path)
 
-        if self.extract and not self.is_nzb:
+        if self.extract:
             up_path = await self.proceed_extract(up_path, gid)
             if self.is_cancelled:
                 return
@@ -375,13 +317,6 @@ class TaskListener(TaskConfig):
                 button = None
             msg += f"\n\n<b>cc: </b>{self.tag}"
             await send_message(self.message, msg, button)
-        if self.seed:
-            await clean_target(self.up_dir)
-            async with queue_dict_lock:
-                if self.mid in non_queued_up:
-                    non_queued_up.remove(self.mid)
-            await start_from_queued()
-            return
         await clean_download(self.dir)
         async with task_dict_lock:
             if self.mid in task_dict:
@@ -403,7 +338,6 @@ class TaskListener(TaskConfig):
             if self.mid in task_dict:
                 del task_dict[self.mid]
             count = len(task_dict)
-        await self.remove_from_same_dir()
         msg = f"{self.tag} Download: {escape(str(error))}"
         await send_message(self.message, msg, button)
         if count == 0:
