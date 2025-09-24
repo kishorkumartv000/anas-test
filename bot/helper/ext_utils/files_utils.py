@@ -15,7 +15,6 @@ from aiofiles.os import (
 )
 
 from ... import LOGGER, DOWNLOAD_DIR
-from ...core.torrent_manager import TorrentManager
 from .bot_utils import sync_to_async, cmd_exec
 from .exceptions import NotSupportedExtractionArchive
 
@@ -128,7 +127,6 @@ async def clean_download(opath):
 
 
 async def clean_all():
-    await TorrentManager.remove_all()
     LOGGER.info("Cleaning Download Directory")
     await (await create_subprocess_exec("rm", "-rf", DOWNLOAD_DIR)).wait()
     await aiomakedirs(DOWNLOAD_DIR, exist_ok=True)
