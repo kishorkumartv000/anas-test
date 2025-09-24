@@ -17,14 +17,14 @@ async def start(_, message):
     reply_markup = buttons.build_menu(2)
     if await CustomFilters.authorized(_, message):
         start_string = f"""
-This bot can mirror from links|tgfiles|torrents|nzb|rclone-cloud to any rclone cloud, Google Drive or to telegram.
+This bot can transfer files from Telegram to any rclone cloud or Google Drive.
 Type /{BotCommands.HelpCommand} to get a list of available commands
 """
         await send_message(message, start_string, reply_markup)
     else:
         await send_message(
             message,
-            "This bot can mirror from links|tgfiles|torrents|nzb|rclone-cloud to any rclone cloud, Google Drive or to telegram.\n\n⚠️ You Are not authorized user! Deploy your own mirror-leech bot",
+            "This bot can transfer files from Telegram to any rclone cloud or Google Drive.\n\n⚠️ You Are not authorized user! Deploy your own mirror-leech bot",
             reply_markup,
         )
 

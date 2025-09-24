@@ -281,14 +281,6 @@ Stop Duplicate is <b>{sd_msg}</b>"""
         ns_msg = "Added" if user_dict.get("NAME_SUBSTITUTE", False) else "None"
         buttons.data_button("Name Subtitute", f"userset {user_id} menu NAME_SUBSTITUTE")
 
-        buttons.data_button("YT-DLP Options", f"userset {user_id} menu YT_DLP_OPTIONS")
-        if user_dict.get("YT_DLP_OPTIONS", False):
-            ytopt = user_dict["YT_DLP_OPTIONS"]
-        elif "YT_DLP_OPTIONS" not in user_dict and Config.YT_DLP_OPTIONS:
-            ytopt = Config.YT_DLP_OPTIONS
-        else:
-            ytopt = "None"
-
         buttons.data_button("FFmpeg Cmds", f"userset {user_id} menu FFMPEG_CMDS")
         if user_dict.get("FFMPEG_CMDS", False):
             ffc = "Exists"
@@ -310,8 +302,6 @@ Upload Paths is <code>{upload_paths}</code>
 Name substitution is <code>{ns_msg}</code>
 
 Excluded Extensions is <code>{ex_ex}</code>
-
-YT-DLP Options is <code>{ytopt}</code>
 
 FFMPEG Commands is <b>{ffc}</b>"""
 
@@ -400,7 +390,7 @@ async def set_option(_, message, option):
         value = min(int(value), TgClient.MAX_SPLIT_SIZE)
     elif option == "EXCLUDED_EXTENSIONS":
         fx = value.split()
-        value = ["aria2", "!qB"]
+        value = ["!qB"]
         for x in fx:
             x = x.lstrip(".")
             value.append(x.strip().lower())

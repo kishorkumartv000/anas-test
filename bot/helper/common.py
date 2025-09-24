@@ -82,11 +82,7 @@ class TaskConfig:
         self.subsize = 0
         self.proceed_count = 0
         self.is_leech = False
-        self.is_qbit = False
-        self.is_nzb = False
-        self.is_jd = False
         self.is_clone = False
-        self.is_ytdlp = False
         self.equal_splits = False
         self.user_transmission = False
         self.hybrid_leech = False
@@ -107,7 +103,6 @@ class TaskConfig:
         self.force_run = False
         self.force_download = False
         self.force_upload = False
-        self.is_torrent = False
         self.as_med = False
         self.as_doc = False
         self.is_file = False
@@ -173,7 +168,7 @@ class TaskConfig:
         self.excluded_extensions = self.user_dict.get("EXCLUDED_EXTENSIONS") or (
             excluded_extensions
             if "EXCLUDED_EXTENSIONS" not in self.user_dict
-            else ["aria2", "!qB"]
+            else ["!qB"]
         )
         if not self.rc_flags:
             if self.user_dict.get("RCLONE_FLAGS"):
@@ -181,8 +176,7 @@ class TaskConfig:
             elif "RCLONE_FLAGS" not in self.user_dict and Config.RCLONE_FLAGS:
                 self.rc_flags = Config.RCLONE_FLAGS
         if self.link not in ["rcl", "gdl"]:
-            if not self.is_jd:
-                if is_rclone_path(self.link):
+            if is_rclone_path(self.link):
                     if not self.link.startswith("mrcc:") and self.user_dict.get(
                         "USER_TOKENS", False
                     ):
@@ -195,13 +189,11 @@ class TaskConfig:
                         self.link = f"mtp:{self.link}"
                     await self.is_token_exists(self.link, "dl")
         elif self.link == "rcl":
-            if not self.is_ytdlp and not self.is_jd:
-                self.link = await RcloneList(self).get_rclone_path("rcd")
+            self.link = await RcloneList(self).get_rclone_path("rcd")
                 if not is_rclone_path(self.link):
                     raise ValueError(self.link)
         elif self.link == "gdl":
-            if not self.is_ytdlp and not self.is_jd:
-                self.link = await GoogleDriveList(self).get_target_id("gdd")
+            self.link = await GoogleDriveList(self).get_target_id("gdd")
                 if not is_gdrive_id(self.link):
                     raise ValueError(self.link)
 
@@ -541,10 +533,7 @@ class TaskConfig:
         await obj(
             self.client,
             nextmsg,
-            self.is_qbit,
             self.is_leech,
-            self.is_jd,
-            self.is_nzb,
             self.same_dir,
             self.bulk,
             self.multi_tag,
@@ -580,10 +569,7 @@ class TaskConfig:
             await obj(
                 self.client,
                 nextmsg,
-                self.is_qbit,
                 self.is_leech,
-                self.is_jd,
-                self.is_nzb,
                 self.same_dir,
                 self.bulk,
                 self.multi_tag,

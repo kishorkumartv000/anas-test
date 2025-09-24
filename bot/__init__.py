@@ -12,7 +12,6 @@ from logging import (
     WARNING,
     ERROR,
 )
-from sabnzbdapi import SabnzbdClient
 from time import time
 from os import cpu_count
 
@@ -38,21 +37,14 @@ LOGGER = getLogger(__name__)
 cpu_no = cpu_count()
 
 DOWNLOAD_DIR = "/usr/src/app/downloads/"
-intervals = {"status": {}, "qb": "", "jd": "", "nzb": "", "stopAll": False}
-qb_torrents = {}
-jd_downloads = {}
-nzb_jobs = {}
+intervals = {"status": {}, "stopAll": False}
 user_data = {}
-aria2_options = {}
-qbit_options = {}
-nzb_options = {}
 queued_dl = {}
 queued_up = {}
 status_dict = {}
 task_dict = {}
-rss_dict = {}
 auth_chats = {}
-excluded_extensions = ["aria2", "!qB"]
+excluded_extensions = ["!qB"]
 drives_names = []
 drives_ids = []
 index_urls = []
@@ -62,16 +54,7 @@ non_queued_up = set()
 multi_tags = set()
 task_dict_lock = Lock()
 queue_dict_lock = Lock()
-qb_listener_lock = Lock()
-nzb_listener_lock = Lock()
-jd_listener_lock = Lock()
 cpu_eater_lock = Lock()
-same_directory_lock = Lock()
 
-sabnzbd_client = SabnzbdClient(
-    host="http://localhost",
-    api_key="mltb",
-    port="8070",
-)
 
 scheduler = AsyncIOScheduler(event_loop=bot_loop)

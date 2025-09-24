@@ -227,7 +227,7 @@ async def move_and_merge(source, destination, mid):
             else:
                 await move(src_path, dest_path)
         else:
-            if item.endswith((".aria2", ".!qB")):
+            if item.endswith(".!qB"):
                 continue
             if await aiopath.exists(dest_path):
                 dest_path = f"{destination}/{mid}-{item}"
